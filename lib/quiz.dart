@@ -11,23 +11,40 @@ class Quiz extends StatefulWidget {
 }
 
 class _QuizState extends State<Quiz> {
-  var activecreen = 'start-screen';
+  var activeScreen = 'start-screen';
   //e kem deklaru variablen qe
 //activescreen osht i barabart me start-screen
 
   void switchScreen() {
     setState(() {
-      activecreen = 'questions-screen ';
+      activeScreen = 'questions-screen';
       //ne qofrse activecreen osht i barabart me 'start-screen' at here na dergon te
       //njejta e qe na dergon tek actvescreen neqoftse  nuk eshte e njejta variabel e qe ktu e kem
       //deklaru tjeter variabel
       // at here dergona te tjetri screen tek questions-screen
-      //e qe posht mandej e thirrum ket
+      //e qe posht mandej e thirrum ket.@404
     });
   }
 
   @override
   Widget build(context) {
+    Widget screenWidget = StartScreen(switchScreen);
+
+    if (activeScreen == 'questions-screen') {
+      screenWidget = const QuestionsScreen();
+    }
+
+    // @404
+    //ose kjo medote
+    // final screnWidget = activecreen == 'start-screen'
+    //     //tek variabla nalt e ken deklaru qe activescreen osht e barabart me start-screen
+    //     // ne qoftse osht e barabart at here dergona tek StartScreen(switchScreen)
+
+    //     ? StartScreen(switchScreen)
+    //     // neqoftse jo at here dergona tek
+    //     : const QuestionsScreen();
+    // //QuestionsScreen(),
+
     return MaterialApp(
       home: Scaffold(
         body: Container(
@@ -41,14 +58,7 @@ class _QuizState extends State<Quiz> {
               begin: Alignment.topRight,
             ),
           ),
-          child: activecreen == 'start-screen'
-              //tek variabla nalt e ken deklaru qe activescreen osht e barabart me start-screen
-              // ne qoftse osht e barabart at here dergona tek StartScreen(switchScreen)
-
-              ? StartScreen(switchScreen)
-              // neqoftse jo at here dergona tek
-              : const QuestionsScreen(),
-          //QuestionsScreen(),
+          child: screenWidget,
         ),
       ),
     );
