@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:quiz_shqip/questions_screen.dart';
 import 'package:quiz_shqip/start_screen.dart';
+import 'package:quiz_shqip/data/questions.dart';
+import 'package:quiz_shqip/results_screen.dart';
 
 class Quiz extends StatefulWidget {
   const Quiz({super.key});
@@ -11,6 +13,8 @@ class Quiz extends StatefulWidget {
 }
 
 class _QuizState extends State<Quiz> {
+  List<String> selectedAnswers = [];
+
   var activeScreen = 'start-screen';
   //e kem deklaru variablen qe
 //activescreen osht i barabart me start-screen
@@ -26,12 +30,33 @@ class _QuizState extends State<Quiz> {
     });
   }
 
+  void chooseAnswer(String answer) {
+    selectedAnswers.add(answer);
+
+    if (selectedAnswers.length == questions.length) {
+      setState(
+        () {
+          selectedAnswers = [];
+          activeScreen = 'results-screen';
+        },
+      );
+    }
+  }
+
   @override
   Widget build(context) {
     Widget screenWidget = StartScreen(switchScreen);
 
     if (activeScreen == 'questions-screen') {
-      screenWidget = const QuestionsScreen();
+      screenWidget = QuestionsScreen(
+        onSelectAnswer: chooseAnswer,
+      );
+    }
+
+    if (activeScreen == 'results-screen') {
+      screenWidget = ResultsScreen(
+        chosenAnswers: selectedAnswers,
+      );
     }
 
     // @404
